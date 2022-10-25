@@ -69,9 +69,9 @@ function RegisterPage() {
     }
   }
   return (
-    <div className="flex justify-center items-center w-full mt-10 h-screen">
-      <div className="shadow-lg bg-white p-7 flex justify-center items-center rounded w-98 m-auto">
-        <div className="w-full">
+    <div className="h-screen flex justify-center items-center mt-10">
+      <div className="p-5 bg-white w-xl mt-10 py-10 rounded-lg form">
+        <div className="p-3 flex flex-col space-y-1">
         <h2 className="text-cyan-900 text-center mb-5 capitalize text-3xl font-bold">Register</h2>
           <div className="w-full mb-1">
             <p className='mt-3'>Name</p>
@@ -138,7 +138,6 @@ function RegisterPage() {
         </div>
       </div>
     </div>
-
   )
 }
 

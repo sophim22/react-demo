@@ -56,9 +56,9 @@ function LoginPage() {
   };
 
   return (
-    <div key={cookies} className="flex justify-center items-center w-full h-screen">
-      <div className="shadow-lg bg-white p-7 flex justify-center items-center rounded w-98 m-auto">
-        <div className="w-full">
+    <div key={cookies} className="h-screen flex justify-center items-center">
+      <div className="p-5 bg-white w-xl rounded-lg form">
+        <div className="p-3 flex flex-col space-y-1">
           <h2 className="text-cyan-900 text-center mb-5 capitalize text-3xl font-bold">Login</h2>
           <div className="w-full mb-2">
             <label>Email or Username</label>
@@ -86,19 +86,17 @@ function LoginPage() {
             </div>
           </div>
           <small className='text-red-500'>{formErrors.password}</small>
-          <div>
-            <p className='text-red-500 italic mt-2'>{message}</p>
+
+          <p className='text-red-500 italic'>{message}</p>
+
+          <div className="w-full flex justify-end">
+            <button
+              onClick={onLogin}
+              className="hover:bg-sky-500 bg-sky-400 text-white font-bold cursor-pointer px-5 rounded py-2">
+              Login
+            </button>
           </div>
-          <div>
-            <div className="w-full flex justify-end mt-3">
-              <button
-                onClick={onLogin}
-                className="hover:bg-sky-500 bg-sky-400 text-white font-bold cursor-pointer px-5 rounded py-2">
-                Login
-              </button>
-            </div>
-          </div>
-          <div className="w-full mt-2 flex flex-wrap">
+          <div className="w-full mt-2 flex flex-wrap justify-center">
             <h3 className="text-blue-500">Don't have account?</h3>
             <Link to={`/register`}
               className="ml-2 text-blue-500 font-bold underline cursor-pointer">
