@@ -69,61 +69,61 @@ function RegisterPage() {
     }
   }
   return (
-    <div className="flex justify-center items-center w-full h-screen">
-      <div className="shadow-lg bg-white rounded p-7 w-1/3 m-auto">
-        <h2 className="text-cyan-900 text-center mb-5 capitalize text-3xl font-bold">Register</h2>
+    <div className="flex justify-center items-center w-full mt-10 h-screen">
+      <div className="shadow-lg bg-white p-7 flex justify-center items-center rounded w-98 m-auto">
         <div className="w-full">
+        <h2 className="text-cyan-900 text-center mb-5 capitalize text-3xl font-bold">Register</h2>
           <div className="w-full mb-1">
-            <label>Name</label>
+            <p className='mt-3'>Name</p>
             <input
               name="name"
               type="text"
-              className='shadow-sm appearance-none border  rounded w-full px-2 p-2 text-gray-700 leading-tight focus:outline-blue-500 focus:shadow-outline'
+              className='w-full h-12 border border-gray-300 rounded-lg px-4 text-lg focus:outline-sky-600 mt-2 mb-2'
               placeholder="Name . . ."
               onChange={onHandleChange}
             />
           </div>
           <small className='text-red-500'>{formErrors.name}</small>
-          <div className="w-full mt-3">
-            <label>Username</label>
+          <div className="w-full">
+            <p className='mt-3'>Username</p>
             <input
               name="username"
               type="text"
-              className='shadow-sm appearance-none border  rounded w-full px-2 p-2 text-gray-700 leading-tight focus:outline-blue-500 focus:shadow-outline'
+              className='w-full h-12 border border-gray-300 rounded-lg px-4 text-lg focus:outline-sky-600 mt-2 mb-2'
               placeholder="Username . . ."
               onChange={onHandleChange}
             />
           </div>
           <small className='text-red-500'>{formErrors.username}</small>
-          <div className="w-full mt-3">
-            <label>Phone</label>
+          <div className="w-full">
+            <p className='mt-3'>Phone</p>
             <input
               name="phone"
               type="text"
-              className="shadow-sm appearance-none border  rounded w-full px-2 p-2 text-gray-700 leading-tight focus:outline-blue-500 focus:shadow-outline"
+              className="w-full h-12 border border-gray-300 rounded-lg px-4 text-lg focus:outline-sky-600 mt-2 mb-2"
               placeholder="Phone . . ."
               onChange={onHandleChange}
             />
           </div>
           <small className='text-red-500'>{formErrors.phone}</small>
-          <div className="w-full mt-3">
-            <label>Email</label>
+          <div className="w-full">
+            <p className='mt-3'>Email</p>
             <input
               name="email"
               type="email"
-              className='shadow-sm appearance-none border  rounded w-full px-2 p-2 text-gray-700 leading-tight focus:outline-blue-500 focus:shadow-outline'
+              className='w-full h-12 border border-gray-300 rounded-lg px-4 text-lg focus:outline-sky-600 mt-2 mb-2'
               placeholder="Email . . ."
               onChange={onHandleChange}
             />
           </div>
           <small className='text-red-500'>{formErrors.email}</small>
-          <div className="w-full mt-3">
-            <label>Password</label>
+          <div className="w-full">
+            <p className='mt-3'>Password</p>
             <input
               name="password"
               type="password"
               placeholder="Password . . ."
-              className='shadow-sm appearance-none border  rounded w-full px-2 p-2 text-gray-700 leading-tight focus:outline-blue-500 focus:shadow-outline'
+              className='w-full h-12 border border-gray-300 rounded-lg px-4 text-lg focus:outline-sky-600 mt-2 mb-2'
               onChange={onHandleChange}
             />
           </div>
