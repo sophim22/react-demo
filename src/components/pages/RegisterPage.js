@@ -1,145 +1,150 @@
-import { useNavigate } from 'react-router-dom';
-import { useState } from 'react';
-function RegisterPage() {
-  const userForm = {
-    name: '',
-    username: '',
-    email: '',
-    phone: '',
-    password: ''
+import React, { useState, useRef } from "react";
+import { useDispatch, useSelector } from "react-redux";
+
+import Form from 'react-validation/build/form';
+import Input from 'react-validation/build/input';
+import CheckButton from 'react-validation/build/button';
+import { isEmail } from 'validator';
+import { register } from "../../redux/actions/auth";
+const uernameRegex = /^[a-z_]+$/;
+
+const required = (value) => {
+  if (!value) {
+    return (
+      <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
+        <span class="block sm:inline">This field is required!</span>
+        <span class="absolute top-0 bottom-0 right-0 px-4 py-3">
+          <svg class="fill-current h-6 w-6 text-red-500" role="button" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><title>Close</title><path d="M14.348 14.849a1.2 1.2 0 0 1-1.697 0L10 11.819l-2.651 3.029a1.2 1.2 0 1 1-1.697-1.697l2.758-3.15-2.759-3.152a1.2 1.2 0 1 1 1.697-1.697L10 8.183l2.651-3.031a1.2 1.2 0 1 1 1.697 1.697l-2.758 3.152 2.758 3.15a1.2 1.2 0 0 1 0 1.698z" /></svg>
+        </span>
+      </div>
+    );
   }
-  const navigate = useNavigate();
-  const [newUser, setNewUser] = useState(userForm);
-  const URL = 'https://learning.staging.aasatech.asia/api/v1/auth';
-  const [formErrors, setFormErrors] = useState({});
-  const onHandleChange = (e) => {
-    const name = e.target.name;
-    const value = e.target.value;
-    setNewUser((prev) => {
-      return { ...prev, [name]: value };
-    })
+};
+
+const validEmail = (value) => {
+  if (!isEmail(value)) {
+    return (
+      <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
+        <span class="block sm:inline">The email is invalid!</span>
+        <span class="absolute top-0 bottom-0 right-0 px-4 py-3">
+          <svg class="fill-current h-6 w-6 text-red-500" role="button" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><title>Close</title><path d="M14.348 14.849a1.2 1.2 0 0 1-1.697 0L10 11.819l-2.651 3.029a1.2 1.2 0 1 1-1.697-1.697l2.758-3.15-2.759-3.152a1.2 1.2 0 1 1 1.697-1.697L10 8.183l2.651-3.031a1.2 1.2 0 1 1 1.697 1.697l-2.758 3.152 2.758 3.15a1.2 1.2 0 0 1 0 1.698z" /></svg>
+        </span>
+      </div>
+    )
   }
-  const validate = (values) => {
-    const errors = {};
-    const regexEmail = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
-    const uernameRegex = /^[a-z_]+$/;
-    if (!values.name) {
-      errors.name = 'name is required!';
-    } else if (values.name.length < 3) {
-      errors.name = 'name should be at least 3 char!'
-    }
-    if (!values.username) {
-      errors.username = 'username is requeired!';
-    } else if (!uernameRegex.test(values.username)) {
-      errors.username = 'only lowercase or "_" can be use!'
-    }
-    if (!values.phone) {
-      errors.phone = 'phone is required!'
-    }
-    if (!values.email) {
-      errors.email = 'email is required!';
-    } else if (!regexEmail.test(values.email)) {
-      errors.email = 'email is invalid!';
-    }
-    if (!values.password) {
-      errors.password = 'password is required!';
-    } else if (values.password.length < 6) {
-      errors.password = 'password must be more or equal 6 characters.';
-    }
-    return errors;
+};
+const validUsername = (value) => {
+  if (!uernameRegex.test(value.username)) {
+    return (
+      <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
+        <span class="block sm:inline">Only lowercase or (_) can be use.</span>
+        <span class="absolute top-0 bottom-0 right-0 px-4 py-3">
+          <svg class="fill-current h-6 w-6 text-red-500" role="button" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><title>Close</title><path d="M14.348 14.849a1.2 1.2 0 0 1-1.697 0L10 11.819l-2.651 3.029a1.2 1.2 0 1 1-1.697-1.697l2.758-3.15-2.759-3.152a1.2 1.2 0 1 1 1.697-1.697L10 8.183l2.651-3.031a1.2 1.2 0 1 1 1.697 1.697l-2.758 3.152 2.758 3.15a1.2 1.2 0 0 1 0 1.698z" /></svg>
+        </span>
+      </div>
+    )
   }
-  
-  const onHandleSubmit = async () => {
-    setFormErrors(validate(newUser));
-    if (Object.keys(validate(newUser)).length === 0){
-      let result = await fetch(URL, {
-        method: 'POST',
-        body: JSON.stringify(newUser),
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json'
-        }
+};
+const validName = (value) => {
+  if (value.length < 3) {
+    return (
+      <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
+        <span class="block sm:inline">Name must be more than 3 characters.</span>
+        <span class="absolute top-0 bottom-0 right-0 px-4 py-3">
+          <svg class="fill-current h-6 w-6 text-red-500" role="button" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><title>Close</title><path d="M14.348 14.849a1.2 1.2 0 0 1-1.697 0L10 11.819l-2.651 3.029a1.2 1.2 0 1 1-1.697-1.697l2.758-3.15-2.759-3.152a1.2 1.2 0 1 1 1.697-1.697L10 8.183l2.651-3.031a1.2 1.2 0 1 1 1.697 1.697l-2.758 3.152 2.758 3.15a1.2 1.2 0 0 1 0 1.698z" /></svg>
+        </span>
+      </div>
+    )
+  }
+};
+const validPassword = (value) => {
+  if (value.length < 6 || value.length >25) {
+    return (
+      <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
+        <span class="block sm:inline">Password must be between 6 and 25 characters.</span>
+        <span class="absolute top-0 bottom-0 right-0 px-4 py-3">
+          <svg class="fill-current h-6 w-6 text-red-500" role="button" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><title>Close</title><path d="M14.348 14.849a1.2 1.2 0 0 1-1.697 0L10 11.819l-2.651 3.029a1.2 1.2 0 1 1-1.697-1.697l2.758-3.15-2.759-3.152a1.2 1.2 0 1 1 1.697-1.697L10 8.183l2.651-3.031a1.2 1.2 0 1 1 1.697 1.697l-2.758 3.152 2.758 3.15a1.2 1.2 0 0 1 0 1.698z" /></svg>
+        </span>
+      </div>
+    )
+  }
+};
+
+const Register = () =>{
+  const form = useRef();
+  const checkBtn = useRef();
+  const dispatch = useDispatch();
+  const { message } = useSelector((state)=>state.message);
+
+  const [name, setName] = useState('');
+  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
+  const [phone, setPhone] = useState('');
+  const [password, setPassword] = useState('');
+  const [successful, setSuccessful] = useState(false);
+
+  const onHandleChangeName = (e) =>{
+    const name = e.target.value;
+    setName(name);
+  };
+  const onHandleChangeUsername = (e)=>{
+    const username = e.target.value;
+    setUsername(username);
+  };
+  const onHandleChangeEmail = (e)=>{
+    const email = e.target.value;
+    setEmail(email);
+  };
+  const onHandleChangePhone = (e)=>{
+    const phone = e.target.value;
+    setPhone(phone);
+  };
+  const onHandleChangePassword = (e)=>{
+    const password = e.target.value;
+    setPassword(password);
+  };
+
+  const onHandleSubmit = (e)=>{
+    e.preventDefault();
+    setSuccessful(false);
+
+    form.current.validateAll();
+
+    if (checkBtn.current.contex._errors.length === 0){
+      dispatch(register(name, username, email, phone, password))
+      .then(()=>{
+        setSuccessful(true);
+      })
+      .catch(()=>{
+        setSuccessful(false);
       });
-      result = await result.json();
-      if (result.token !== undefined) {
-        navigate('/login')
-      }else{
-        setFormErrors(result.errors);
-      }
     }
-  }
+  };
+
   return (
-    <div className="h-screen flex justify-center items-center mt-10">
-      <div className="p-5 bg-white w-xl mt-10 py-10 rounded-lg form">
-        <div className="p-3 flex flex-col space-y-1">
-        <h2 className="text-cyan-900 text-center mb-5 capitalize text-3xl font-bold">Register</h2>
-          <div className="w-full mb-1">
-            <p className='mt-3'>Name</p>
-            <input
-              name="name"
-              type="text"
-              className='w-full h-12 border border-gray-300 rounded-lg px-4 text-lg focus:outline-sky-600 mt-2 mb-2'
-              placeholder="Name . . ."
-              onChange={onHandleChange}
-            />
-          </div>
-          <small className='text-red-500'>{formErrors.name}</small>
-          <div className="w-full">
-            <p className='mt-3'>Username</p>
-            <input
-              name="username"
-              type="text"
-              className='w-full h-12 border border-gray-300 rounded-lg px-4 text-lg focus:outline-sky-600 mt-2 mb-2'
-              placeholder="Username . . ."
-              onChange={onHandleChange}
-            />
-          </div>
-          <small className='text-red-500'>{formErrors.username}</small>
-          <div className="w-full">
-            <p className='mt-3'>Phone</p>
-            <input
-              name="phone"
-              type="text"
-              className="w-full h-12 border border-gray-300 rounded-lg px-4 text-lg focus:outline-sky-600 mt-2 mb-2"
-              placeholder="Phone . . ."
-              onChange={onHandleChange}
-            />
-          </div>
-          <small className='text-red-500'>{formErrors.phone}</small>
-          <div className="w-full">
-            <p className='mt-3'>Email</p>
-            <input
-              name="email"
-              type="email"
-              className='w-full h-12 border border-gray-300 rounded-lg px-4 text-lg focus:outline-sky-600 mt-2 mb-2'
-              placeholder="Email . . ."
-              onChange={onHandleChange}
-            />
-          </div>
-          <small className='text-red-500'>{formErrors.email}</small>
-          <div className="w-full">
-            <p className='mt-3'>Password</p>
-            <input
-              name="password"
-              type="password"
-              placeholder="Password . . ."
-              className='w-full h-12 border border-gray-300 rounded-lg px-4 text-lg focus:outline-sky-600 mt-2 mb-2'
-              onChange={onHandleChange}
-            />
-          </div>
-          <small className='text-red-500'>{formErrors.password}</small>
-          <div className="w-full flex justify-end mt-5">
-            <button
-              onClick={onHandleSubmit}
-              className="rounded font-bold cursor-pointer hover:bg-sky-500 bg-sky-400 text-white px-6 py-2">
-              Register
-            </button>
-          </div>
-        </div>
+    <div className="lg:grid-cols-4">
+      <div className="form-container">
+        <h1>Register</h1>
+
+        <Form onSubmit={onHandleSubmit} ref={form}>
+          {!successful && (
+            <div className="form-group">
+              <label htmlFor="name">Name</label>
+              <Input
+                type="text"
+                className="w-full bg-gray-200 outline-gray-200"
+                value={name}
+                onChange={onHandleChangeName}
+                placeholder="Name..."
+                validations={[required, validName]}
+              />
+            </div>
+          )}
+
+        </Form>
       </div>
     </div>
   )
 }
 
-export default RegisterPage;
-
+export default Register;

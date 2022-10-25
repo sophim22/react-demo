@@ -57,7 +57,7 @@ function LoginPage() {
 
   return (
     <div key={cookies} className="h-screen flex justify-center items-center">
-      <div className="p-5 bg-white w-xl rounded-lg form">
+      <div className="p-5 bg-white w-lg rounded-lg form-login">
         <div className="p-3 flex flex-col space-y-1">
           <h2 className="text-cyan-900 text-center mb-5 capitalize text-3xl font-bold">Login</h2>
           <div className="w-full mb-2">
